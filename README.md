@@ -27,7 +27,7 @@ You can easily write your own custom connectors and tests.
  
 ## Currently implemented
  * Connectors - MongoDB, ZODB, SQLAlchemy (configured for MySQL)
- * Tests:
+ * Tests (by default runs 10 times per test):
     * read - Setup 2,000 records, read 1,000 recods by randomly generated IDs
     * write - write 1,000 new records with randomly generated data
     * update - Setup 2,000 records, update 1,000 recods by randomly generated IDs with randomly generated data
