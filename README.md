@@ -36,3 +36,4 @@ You can easily write your own custom connectors and tests.
  * ***"Invalid utf8mb4 chatacter"* Warning message** - A bug in the PyMySQL library caused by using a BLOB field in the tests
  * **General slow execution of test setups and cleanups** - Yet to be resolved
  * **SQLAlchemy module can't handle sudden test termination** - Yet to be resolved
+ *  ***"No handlers could be found for logger "ZODB.FileStorage" "* Warning message** - Haven't added proper logging yet. 
