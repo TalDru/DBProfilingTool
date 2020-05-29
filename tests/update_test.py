@@ -23,7 +23,7 @@ class Test(TestBase):
         # Update a set amount of randomly generated indexes from the DB with new data
 
         for data in data_generator(self.sample_size):
-            index = random.randint(0, self.pool_size)
+            index = random.randint(0, self.pool_size-1)
             data['index'] = index
             _ = self.connector.update(index, data)
 
