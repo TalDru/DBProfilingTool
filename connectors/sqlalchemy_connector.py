@@ -2,7 +2,7 @@
 
 import sqlalchemy
 import sqlalchemy.orm
-from sqlalchemy.dialects import mysql
+from sqlalchemy import INTEGER, String, Boolean, BLOB
 from sqlalchemy.ext.declarative import declarative_base
 
 from base_connector import ConnectorBase
@@ -21,11 +21,11 @@ class Connector(ConnectorBase):
     class DataTbl(SQLA_Base):
         __tablename__ = DEFAULT_TABLE_NAME
 
-        _id = sqlalchemy.Column(sqlalchemy.Integer(), primary_key=True)
-        index = sqlalchemy.Column(sqlalchemy.Integer())
-        name = sqlalchemy.Column(sqlalchemy.String(length=50))
-        is_male = sqlalchemy.Column(sqlalchemy.Boolean())
-        picture = sqlalchemy.Column(mysql.BLOB())
+        _id = sqlalchemy.Column(INTEGER, primary_key=True)
+        index = sqlalchemy.Column(INTEGER)
+        name = sqlalchemy.Column(String(50))
+        is_male = sqlalchemy.Column(Boolean)
+        picture = sqlalchemy.Column(BLOB)
 
     def __enter__(self):
         self.db = sqlalchemy.create_engine(CONNECTION_STRING)
@@ -44,7 +44,8 @@ class Connector(ConnectorBase):
         return self.DataTbl(**data)
 
     def read(self, index):
-        return self.connection.query(self.DataTbl).filter_by(index=index).first()
+        self.connection.query(self.DataTbl).filter_by(index=index).first()
+        return self.connection.commit()
 
     def write(self, data):
         transformed_data = self._transform(data)
@@ -52,7 +53,8 @@ class Connector(ConnectorBase):
         return self.connection.commit()
 
     def update(self, index, data):
-        self.connection.query(self.DataTbl).filter_by(index=index).update(data)
+        transformed_data = self._transform(data)
+        self.connection.merge(transformed_data)
         return self.connection.commit()
 
     def __exit__(self, exc_type, exc_val, exc_tb):

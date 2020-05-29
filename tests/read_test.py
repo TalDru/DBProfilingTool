@@ -23,7 +23,7 @@ class Test(TestBase):
         # Read a set amount of randomly generated indexes from the DB
 
         for _ in range(self.sample_size):
-            index = random.randint(0, self.pool_size-1)
+            index = random.randint(0, self.pool_size - 1)
             _ = self.connector.read(index)
 
     def __exit__(self, exc_type, exc_val, exc_tb):
