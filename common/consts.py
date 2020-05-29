@@ -20,6 +20,6 @@ TEST_FORMAT = "tests.{}_test"
 DB_NAME_FORMAT = "Profiling {db_name}:"
 TEST_NAME_FORMAT = "* Running {test_name} test [{count} time(s)]"
 CURRENT_RESULTS_FORMAT = "\t\tCurrent results for '{test_name}' [{num}/{total}]: " \
-                         "{latest:.2f} ms (AVG {avg:.2f}, MIN {min:.2f}, MAX {max:.2f})"
+                         "{latest:,.2f} ms (AVG {avg:,.2f}, MIN {min:,.2f}, MAX {max:,.2f})"
 SUMMERY_FORMAT = "\t> Results for running '{test_name}' {total} time(s): " \
-                 "AVG {avg:.2f} ms , MIN {min:.2f} ms, MAX {max:.2f} ms.\n"
+                 "AVG {avg:,.2f} ms , MIN {min:,.2f} ms, MAX {max:,.2f} ms.\n"
