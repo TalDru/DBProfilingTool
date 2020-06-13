@@ -41,16 +41,17 @@ class Connector(ConnectorBase):
     def write(self, data):
         transformed_data = self._transform(data)
         self.db[DEFAULT_TABLE_NAME].update({transformed_data.index: transformed_data})
-        return transaction.commit()
 
     def update(self, index, data):
         transformed_data = self._transform(data)
         self.db[DEFAULT_TABLE_NAME].update({index: transformed_data})
-        return transaction.commit()
+
+    def flush(self):
+        transaction.commit()
 
     def __exit__(self, exc_type, exc_val, exc_tb):
         del self.db[DEFAULT_TABLE_NAME]
-        transaction.commit()
+        self.flush()
 
         self.connection.close()
         self.zdb.pack()

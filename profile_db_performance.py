@@ -22,9 +22,6 @@ def get_connector_class(db_type):
 
 def run_tests(dbs, tests, count, is_verbose):
     # Run chosen tests count times per test on chosen DBs
-
-    # TODO: handle KeyboardInterruption
-
     for db_type in dbs:
         print DB_NAME_FORMAT.format(db_name=db_type.capitalize())
         for test_type in tests:

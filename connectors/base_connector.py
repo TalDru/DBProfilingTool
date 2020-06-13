@@ -31,5 +31,9 @@ class ConnectorBase(object):
         raise NotImplementedError
 
     @abstractmethod
+    def flush(self):
+        raise NotImplementedError
+
+    @abstractmethod
     def __exit__(self, exc_type, exc_val, exc_tb):
         raise NotImplementedError

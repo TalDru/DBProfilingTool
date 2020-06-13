@@ -36,6 +36,7 @@ class Connector(ConnectorBase):
         session.configure(bind=self.db)
         self.connection = session()
 
+        self.SQLA_Base.metadata.drop_all(self.db)
         self.SQLA_Base.metadata.create_all(self.db)
 
         return self
@@ -44,23 +45,23 @@ class Connector(ConnectorBase):
         return self.DataTbl(**data)
 
     def read(self, index):
-        self.connection.query(self.DataTbl).filter_by(index=index).first()
-        return self.connection.commit()
+        return self.connection.query(self.DataTbl).filter(self.DataTbl.index == index).first()
 
     def write(self, data):
         transformed_data = self._transform(data)
         self.connection.add(transformed_data)
-        return self.connection.commit()
 
     def update(self, index, data):
-        transformed_data = self._transform(data)
-        self.connection.merge(transformed_data)
-        return self.connection.commit()
+        data.pop('index')
+        self.connection.query(self.DataTbl).filter_by(index=index).update(data)
+
+    def flush(self):
+        self.connection.commit()
 
     def __exit__(self, exc_type, exc_val, exc_tb):
-        self.DataTbl.__table__.drop(self.db)
-        self.db.execute("DROP DATABASE {}".format(DEFAULT_DB_NAME))
-        self.connection.commit()
+        self.flush()
+        self.connection.execute("DROP TABLE IF EXISTS {}".format(DEFAULT_TABLE_NAME))
+        self.flush()
 
         self.connection.close()
         self.db.dispose()

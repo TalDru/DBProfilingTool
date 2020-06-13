@@ -30,11 +30,14 @@ class Connector(ConnectorBase):
 
     def write(self, data):
         transformed_data = self._transform(data)
-        return self.db[DEFAULT_TABLE_NAME].insert_one(transformed_data)
+        self.db[DEFAULT_TABLE_NAME].insert_one(transformed_data)
 
     def update(self, index, data):
         transformed_data = self._transform(data)
-        return self.db[DEFAULT_TABLE_NAME].update_one({'index': index}, {'$set': transformed_data})
+        self.db[DEFAULT_TABLE_NAME].update_one({'index': index}, {'$set': transformed_data})
+
+    def flush(self):
+        pass
 
     def __exit__(self, exc_type, exc_val, exc_tb):
         self.connection.drop_database(self.db.name)

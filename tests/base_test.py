@@ -11,7 +11,7 @@ class TestBase(object):
     def __init__(self, connector):
         self.connector = connector
         self.sample_size = DEFAULT_SAMPLE_SIZE
-        self.pool_size = self.sample_size * DEFAULT_POOL_MAGNIFIER
+        self.pool_size = int(self.sample_size * DEFAULT_POOL_MAGNIFIER)
 
     @abstractmethod
     def __enter__(self):

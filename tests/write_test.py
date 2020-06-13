@@ -18,6 +18,7 @@ class Test(TestBase):
 
         for data in data_generator(self.sample_size):
             self.connector.write(data)
+        self.connector.flush()
 
     def __exit__(self, exc_type, exc_val, exc_tb):
         pass

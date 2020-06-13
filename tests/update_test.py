@@ -12,10 +12,13 @@ class Test(TestBase):
         super(Test, self).__init__(connector)
 
     def __enter__(self):
-        # Set up the DB to contain 2 times the amount of the test size
+        # Set up the DB to contain the test pool size
 
         for data in data_generator(self.pool_size):
             self.connector.write(data)
+
+        self.connector.flush()
+
         return self
 
     @time_execution_length
@@ -25,7 +28,9 @@ class Test(TestBase):
         for data in data_generator(self.sample_size):
             index = random.randint(0, self.pool_size-1)
             data['index'] = index
-            _ = self.connector.update(index, data)
+            self.connector.update(index, data)
+
+        self.connector.flush()
 
     def __exit__(self, exc_type, exc_val, exc_tb):
         pass
